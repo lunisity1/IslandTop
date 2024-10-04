@@ -1,0 +1,14 @@
+Messages:
+  "NO-PERMISSION":
+    Message:
+      Enabled: true
+      Value:
+        - "&8(&c!&8) &7You do not have permission to do that!"
+  "TYPE-TOP":
+    Message:
+      Enabled: true
+      Value:
+        - "%color%&l%type% Top Leaderboard"
+        - "&8&l&m-----------------------------------------"
+        - "%entries%"
+        - "&8&l&m-----------------------------------------"

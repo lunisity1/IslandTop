@@ -1,0 +1,5 @@
+name: IslandTop
+version: '1.0-alpha'
+main: dev.lunisity.islandTop.IslandTop
+api-version: '1.20'
+authors: [ Lunisity ]

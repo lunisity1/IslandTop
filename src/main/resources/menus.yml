@@ -1,0 +1,15 @@
+CropTop:
+  Title: "Crop Top"
+  Rows: !int 3
+
+OreTop:
+  Title: "Ore Top"
+  Rows: !int 3
+
+FishTop:
+  Title: "Fish Top"
+  Rows: !int 3
+
+LogTop:
+  Title: "Log Top"
+  Rows: !int 3

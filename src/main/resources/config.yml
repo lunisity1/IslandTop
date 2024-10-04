@@ -1,0 +1,48 @@
+Settings:
+  Enabled: true
+  Secret-Code: "74130093345205078424"
+
+Whitelist:
+  Farming: # Must be the material of the placed drop - not the crop given when harvested (e.g. CARROTS instead of CARROT)
+    - "WHEAT"
+    - "CARROTS"
+    - "POTATOES"
+  Fishing:
+    - "SALMON"
+    - "COD"
+    - "TROPICAL_FISH"
+    - "PUFFERFISH"
+  Mining:
+    - "COAL_ORE"
+    - "IRON_ORE"
+    - "GOLD_ORE"
+    - "DIAMOND_ORE"
+  Logging:
+    - "OAK_LOG"
+    - "SPRUCE_LOG"
+    - "BIRCH_LOG"
+    - "JUNGLE_LOG"
+
+Allowed-Worlds:
+  Farming:
+    - "farming-world"
+    - "another-farming-world"
+    - "SuperiorWorld"
+  Fishing:
+    - "fishing-world"
+    - "another-fishing-world"
+    - "SuperiorWorld"
+  Mining:
+    - "mining-world"
+    - "another-mining-world"
+    - "SuperiorWorld"
+  Logging:
+    - "logging-world"
+    - "another-logging-world"
+    - "SuperiorWorld"
+
+Formats:
+  CropTop: "&2&l#%position% &a%player% &2- &a%value%"
+  FishTop: "&3&l#%position% &b%player% &3- &b%value%"
+  LogTop: "&6&l#%position% &e%player% &6- &e%value%"
+  OreTop: "&5&l#%position% &d%player% &5- &d%value%"
