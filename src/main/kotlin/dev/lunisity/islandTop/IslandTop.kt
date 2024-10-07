@@ -18,6 +18,7 @@ import dev.lunisity.islandTop.commands.chat.LogTopCommand
 import dev.lunisity.islandTop.commands.chat.OreTopCommand
 import dev.lunisity.islandTop.commands.menu.CropTopMenuCommand
 import dev.lunisity.islandTop.commands.menu.FishTopMenuCommand
+import dev.lunisity.islandTop.commands.menu.IslandTopMenuCommand
 import dev.lunisity.islandTop.commands.menu.LogTopMenuCommand
 import dev.lunisity.islandTop.commands.menu.OreTopMenuCommand
 import dev.lunisity.islandTop.listener.islands.CreationListener
@@ -27,15 +28,15 @@ import dev.lunisity.islandTop.listener.stats.FarmingListener
 import dev.lunisity.islandTop.listener.stats.FishingListener
 import dev.lunisity.islandTop.listener.stats.LoggingListener
 import dev.lunisity.islandTop.listener.stats.MiningListener
-import dev.lunisity.islandTop.manager.IslandStatManager
+import dev.lunisity.islandTop.manager.island.IslandStatManager
 import dev.lunisity.islandTop.manager.MessageManager
 import dev.lunisity.islandTop.manager.PlayerStatManager
 import dev.lunisity.islandTop.manager.TopManager
+import dev.lunisity.islandTop.manager.island.TrophyManager
 import dev.lunisity.novaconfig.interfaces.Config
 import dev.lunisity.novaconfig.manager.FileManager
 import dev.lunisity.novamessages.messages.MessageCache
 import org.bukkit.Bukkit
-import org.bukkit.WorldCreator
 import org.bukkit.plugin.java.JavaPlugin
 import java.util.logging.Logger
 
@@ -60,6 +61,7 @@ class IslandTop : JavaPlugin(), Component<JavaPlugin> {
         lateinit var islandManager: IslandStatManager
         lateinit var messageManager: MessageManager
         lateinit var topManager: TopManager
+        lateinit var trophyManager: TrophyManager
     }
 
     override fun onEnable() {
@@ -100,6 +102,7 @@ class IslandTop : JavaPlugin(), Component<JavaPlugin> {
         islandManager = IslandStatManager()
         messageManager = MessageManager()
         topManager = TopManager()
+        trophyManager = TrophyManager()
 
         Bukkit.getPluginManager().registerEvents(CreationListener(), this)
         Bukkit.getPluginManager().registerEvents(DisbandListener(), this)
@@ -108,8 +111,6 @@ class IslandTop : JavaPlugin(), Component<JavaPlugin> {
         Bukkit.getPluginManager().registerEvents(FarmingListener(), this)
         Bukkit.getPluginManager().registerEvents(FishingListener(), this)
         Bukkit.getPluginManager().registerEvents(LoggingListener(), this)
-
-        Bukkit.createWorld(WorldCreator("farming-world"))?.save()
 
         LogUtil.warning("IslandTop loaded!")
 
@@ -128,6 +129,7 @@ class IslandTop : JavaPlugin(), Component<JavaPlugin> {
         FishTopMenuCommand().bind(this)
         OreTopMenuCommand().bind(this)
         LogTopMenuCommand().bind(this)
+        IslandTopMenuCommand().bind(this)
     }
 
     fun save() {

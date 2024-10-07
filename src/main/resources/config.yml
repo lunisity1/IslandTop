@@ -41,6 +41,17 @@ Allowed-Worlds:
     - "another-logging-world"
     - "SuperiorWorld"
 
+Trophy:
+  Fish:
+    Value: 1000
+  Log:
+    Value: 750
+  Ore:
+    Value: 500
+  Crop:
+    Value: 250
+
+
 Formats:
   CropTop: "&2&l#%position% &a%player% &2- &a%value%"
   FishTop: "&3&l#%position% &b%player% &3- &b%value%"

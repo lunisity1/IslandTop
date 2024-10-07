@@ -23,6 +23,7 @@ class CreationListener : Listener {
         val islandEntity: TrackedIslandEntity = TrackedIslandEntity(island.uniqueId)
         islandEntity.island = island.uniqueId
         islandEntity.leader = island.owner.uniqueId
+        islandEntity.members = members.map { it.uniqueId }.toMutableList()
 
         for (member in members) {
             val memberEntity: TrackedUserEntity = IslandTop.userStorageManager.read(member.uniqueId)

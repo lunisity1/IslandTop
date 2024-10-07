@@ -13,3 +13,7 @@ FishTop:
 LogTop:
   Title: "Log Top"
   Rows: !int 3
+
+IslandTop:
+  Title: "Island Top"
+  Rows: !int 3

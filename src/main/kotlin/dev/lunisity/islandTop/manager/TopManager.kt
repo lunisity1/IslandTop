@@ -1,8 +1,12 @@
 package dev.lunisity.islandTop.manager
 
+import com.bgsoftware.superiorskyblock.api.SuperiorSkyblockAPI
+import com.bgsoftware.superiorskyblock.api.island.Island
 import dev.lunisity.islandTop.IslandTop
 import dev.lunisity.islandTop.api.data.TrackedType
+import dev.lunisity.islandTop.api.storage.entity.TrackedIslandEntity
 import dev.lunisity.islandTop.api.storage.entity.TrackedUserEntity
+import dev.lunisity.islandTop.api.utils.MathUtil
 import java.util.UUID
 
 class TopManager {
@@ -40,7 +44,7 @@ class TopManager {
 
         val newMap = mutableMapOf<UUID, Long>()
 
-        for ((index, user) in subList.withIndex()) {
+        for (user in subList) {
             newMap[user.key] = user.getTrackedStat(TrackedType.FISH)
         }
 
@@ -60,7 +64,7 @@ class TopManager {
 
         val newMap = mutableMapOf<UUID, Long>()
 
-        for ((index, user) in subList.withIndex()) {
+        for (user in subList) {
             newMap[user.key] = user.getTrackedStat(TrackedType.LOG)
         }
 
@@ -80,8 +84,29 @@ class TopManager {
 
         val newMap = mutableMapOf<UUID, Long>()
 
-        for ((index, user) in subList.withIndex()) {
+        for (user in subList) {
             newMap[user.key] = user.getTrackedStat(TrackedType.ORE)
+        }
+
+        return newMap
+    }
+
+    fun getTop5Island(): MutableMap<Island, Long> {
+        val top5: MutableMap<UUID, TrackedIslandEntity> = IslandTop.islandStorageManager.cache!!.asMap
+
+        val top5List: MutableList<TrackedIslandEntity> = top5.values.toMutableList()
+        top5List.sortByDescending { it.getAverage() }
+        val subList = if (top5List.size > 5) {
+            top5List.subList(0, 5)
+        } else {
+            top5List
+        }
+
+        val newMap = mutableMapOf<Island, Long>()
+
+        for (island in subList) {
+            val islandObject = SuperiorSkyblockAPI.getIslandByUUID(island.island!!)
+            newMap[islandObject] = MathUtil.round(island.getTotalTrackedStats(), 2)
         }
 
         return newMap
