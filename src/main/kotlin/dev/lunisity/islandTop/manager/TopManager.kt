@@ -51,11 +51,11 @@ class TopManager {
         return newMap
     }
 
-    fun getTop5Log(): MutableMap<UUID, Long> {
+    fun getTop5Mob(): MutableMap<UUID, Long> {
         val top9: MutableMap<UUID, TrackedUserEntity> = IslandTop.userStorageManager.cache!!.asMap
 
         val top9List: MutableList<TrackedUserEntity> = top9.values.toMutableList()
-        top9List.sortByDescending { it.getTrackedStat(TrackedType.LOG) }
+        top9List.sortByDescending { it.getTrackedStat(TrackedType.MOB) }
         val subList = if (top9List.size > 5) {
             top9List.subList(0, 5)
         } else {
@@ -65,7 +65,7 @@ class TopManager {
         val newMap = mutableMapOf<UUID, Long>()
 
         for (user in subList) {
-            newMap[user.key] = user.getTrackedStat(TrackedType.LOG)
+            newMap[user.key] = user.getTrackedStat(TrackedType.MOB)
         }
 
         return newMap
@@ -95,7 +95,7 @@ class TopManager {
         val top5: MutableMap<UUID, TrackedIslandEntity> = IslandTop.islandStorageManager.cache!!.asMap
 
         val top5List: MutableList<TrackedIslandEntity> = top5.values.toMutableList()
-        top5List.sortByDescending { it.getAverage() }
+        top5List.sortByDescending { it.getTotalTrophies() }
         val subList = if (top5List.size > 5) {
             top5List.subList(0, 5)
         } else {
@@ -106,7 +106,7 @@ class TopManager {
 
         for (island in subList) {
             val islandObject = SuperiorSkyblockAPI.getIslandByUUID(island.island!!)
-            newMap[islandObject] = MathUtil.round(island.getTotalTrackedStats(), 2)
+            newMap[islandObject] = MathUtil.round(island.getTotalTrophies(), 2)
         }
 
         return newMap

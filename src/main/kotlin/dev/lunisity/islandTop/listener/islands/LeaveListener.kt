@@ -19,8 +19,9 @@ class LeaveListener : Listener {
         userEntity.isModified = true
         IslandTop.userStorageManager.write(userEntity)
 
-        val islandEntity = IslandTop.islandStorageManager.read(island.uniqueId)
+        val islandEntity = IslandTop.islandStorageManager.read(island.uniqueId) ?: return
         islandEntity.removeAllTrackedStats(player.uniqueId)
+        islandEntity.members.remove(player.uniqueId)
         islandEntity.isModified = true
 
         IslandTop.islandStorageManager.write(islandEntity)
@@ -38,6 +39,7 @@ class LeaveListener : Listener {
 
         val islandEntity = IslandTop.islandStorageManager.read(island.uniqueId)
         islandEntity.removeAllTrackedStats(player.uniqueId)
+        islandEntity.members.remove(player.uniqueId)
         islandEntity.isModified = true
 
         IslandTop.islandStorageManager.write(islandEntity)

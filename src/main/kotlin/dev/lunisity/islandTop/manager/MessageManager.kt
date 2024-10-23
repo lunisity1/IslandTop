@@ -6,7 +6,6 @@ import dev.lunisity.islandTop.IslandTop
 import dev.lunisity.islandTop.api.data.TrackedType
 import dev.lunisity.islandTop.api.storage.entity.TrackedUserEntity
 import org.bukkit.Bukkit
-import org.bukkit.entity.Player
 import java.util.UUID
 
 class MessageManager {
@@ -69,11 +68,11 @@ class MessageManager {
 
     fun getLogTopMessage(): String {
         val top9: MutableMap<UUID, TrackedUserEntity> = IslandTop.userStorageManager.cache!!.asMap
-        val format = IslandTop.mainConfig.getString("Formats/LogTop")
+        val format = IslandTop.mainConfig.getString("Formats/MobTop")
         val builder = StringBuilder()
 
         val top9List: MutableList<TrackedUserEntity> = top9.values.toMutableList()
-        top9List.sortByDescending { it.getTrackedStat(TrackedType.LOG) }
+        top9List.sortByDescending { it.getTrackedStat(TrackedType.MOB) }
         val subList = if (top9List.size > 9) {
             top9List.subList(0, 9)
         } else {
@@ -82,7 +81,7 @@ class MessageManager {
 
         for ((index, user) in subList.withIndex()) {
             val player = Bukkit.getPlayer(user.key) ?: Bukkit.getOfflinePlayer(user.key)
-            val value = user.getTrackedStat(TrackedType.LOG)
+            val value = user.getTrackedStat(TrackedType.MOB)
 
             val replacer = TextReplacer()
                 .with("%position%", index + 1)

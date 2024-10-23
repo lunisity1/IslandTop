@@ -21,6 +21,11 @@ class TrophyManager {
         return entity.getTotalTrophies()
     }
 
+    fun getTrophies(island: Island, type: TrophyType): Long {
+        val entity = IslandTop.islandManager.getIsland(island)
+        return entity.getTrophies(type)
+    }
+
     fun getTotalTrophies(island: Island): Long {
         val entity = IslandTop.islandManager.getIsland(island)
         return entity.getTotalTrophies()

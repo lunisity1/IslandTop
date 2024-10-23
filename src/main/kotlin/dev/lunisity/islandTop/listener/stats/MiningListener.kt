@@ -30,8 +30,6 @@ class MiningListener : Listener {
             return
         }
 
-        LogUtil.error("A player broke an ore! ${player.name}")
-
         IslandTop.playerManager.addStat(player, TrackedType.ORE, 1)
         if (IslandTop.islandManager.hasIsland(player)) {
             IslandTop.islandManager.addStat(player, TrackedType.ORE, 1)

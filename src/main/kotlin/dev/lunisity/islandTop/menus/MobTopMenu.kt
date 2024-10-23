@@ -10,14 +10,14 @@ import org.bukkit.Material
 import org.bukkit.entity.Player
 import kotlin.collections.iterator
 
-class LogTopMenu(val player: Player) : AbstractMenu(IslandTop.instance, IslandTop.menuConfig, "LogTop") {
+class MobTopMenu(val player: Player) : AbstractMenu(IslandTop.instance, IslandTop.menuConfig, "MobTop") {
 
     init {
         setPageItems()
     }
 
     fun setPageItems() {
-        val top5 = IslandTop.topManager.getTop5Log()
+        val top5 = IslandTop.topManager.getTop5Mob()
 
         if (top5.isEmpty()) {
             return
@@ -29,15 +29,15 @@ class LogTopMenu(val player: Player) : AbstractMenu(IslandTop.instance, IslandTo
             val target = Bukkit.getPlayer(entry.key) ?: Bukkit.getOfflinePlayer(entry.key)
 
             val item = ItemBuilder.of(Material.PLAYER_HEAD).setOwner(target.name)
-                .setName("&6&l#$index &e${target.name}")
-                .setLore(listOf("&e${entry.value} &7Logs")).itemStack
+                .setName("&4&l#$index &c${target.name}")
+                .setLore(listOf("&c${entry.value} &7Mobs")).itemStack
 
             setItem(slot, item) { e ->
                 e.isCancelled = true
 
-                val stat = IslandTop.playerManager.getStat(target as Player, TrackedType.LOG)
+                val stat = IslandTop.playerManager.getStat(target as Player, TrackedType.MOB)
 
-                player.sendMessage(ColorAPI.apply("&a${target.name} &7has &a$stat &7logs!"))
+                player.sendMessage(ColorAPI.apply("&c${target.name} &7has &c$stat &7mob kills!"))
             }
             slot++
             index++

@@ -12,32 +12,36 @@ import dev.lunisity.islandTop.api.storage.creator.TrackedUserCreator
 import dev.lunisity.islandTop.api.storage.entity.TrackedIslandEntity
 import dev.lunisity.islandTop.api.storage.entity.TrackedUserEntity
 import dev.lunisity.islandTop.api.utils.LogUtil
+import dev.lunisity.islandTop.commands.admin.strikes.StrikeAdminCommand
 import dev.lunisity.islandTop.commands.chat.CropTopCommand
 import dev.lunisity.islandTop.commands.chat.FishTopCommand
-import dev.lunisity.islandTop.commands.chat.LogTopCommand
+import dev.lunisity.islandTop.commands.chat.MobTopCommand
 import dev.lunisity.islandTop.commands.chat.OreTopCommand
 import dev.lunisity.islandTop.commands.menu.CropTopMenuCommand
 import dev.lunisity.islandTop.commands.menu.FishTopMenuCommand
 import dev.lunisity.islandTop.commands.menu.IslandTopMenuCommand
-import dev.lunisity.islandTop.commands.menu.LogTopMenuCommand
+import dev.lunisity.islandTop.commands.menu.MobTopMenuCommand
 import dev.lunisity.islandTop.commands.menu.OreTopMenuCommand
 import dev.lunisity.islandTop.listener.islands.CreationListener
 import dev.lunisity.islandTop.listener.islands.DisbandListener
 import dev.lunisity.islandTop.listener.islands.LeaveListener
 import dev.lunisity.islandTop.listener.stats.FarmingListener
 import dev.lunisity.islandTop.listener.stats.FishingListener
-import dev.lunisity.islandTop.listener.stats.LoggingListener
+import dev.lunisity.islandTop.listener.stats.MobListener
 import dev.lunisity.islandTop.listener.stats.MiningListener
 import dev.lunisity.islandTop.manager.island.IslandStatManager
 import dev.lunisity.islandTop.manager.MessageManager
 import dev.lunisity.islandTop.manager.PlayerStatManager
 import dev.lunisity.islandTop.manager.TopManager
+import dev.lunisity.islandTop.manager.island.StrikeManager
 import dev.lunisity.islandTop.manager.island.TrophyManager
 import dev.lunisity.novaconfig.interfaces.Config
 import dev.lunisity.novaconfig.manager.FileManager
 import dev.lunisity.novamessages.messages.MessageCache
 import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
+import org.bukkit.scheduler.BukkitRunnable
+import org.bukkit.scheduler.BukkitTask
 import java.util.logging.Logger
 
 class IslandTop : JavaPlugin(), Component<JavaPlugin> {
@@ -62,6 +66,7 @@ class IslandTop : JavaPlugin(), Component<JavaPlugin> {
         lateinit var messageManager: MessageManager
         lateinit var topManager: TopManager
         lateinit var trophyManager: TrophyManager
+        lateinit var strikeManager: StrikeManager
     }
 
     override fun onEnable() {
@@ -73,7 +78,7 @@ class IslandTop : JavaPlugin(), Component<JavaPlugin> {
         mainConfig = fileManager.load("config.yml")
         menuConfig = fileManager.load("menus.yml")
 
-        secretCodes = mutableListOf("74130093345205078424")
+        secretCodes = mutableListOf("-ZWO2VPY6UTLBU9ISFRHK-")
 
         if (!secretCodes.contains(mainConfig.getString("Settings/Secret-Code"))) {
             logger.info("Secret code is incorrect!")
@@ -103,6 +108,7 @@ class IslandTop : JavaPlugin(), Component<JavaPlugin> {
         messageManager = MessageManager()
         topManager = TopManager()
         trophyManager = TrophyManager()
+        strikeManager = StrikeManager()
 
         Bukkit.getPluginManager().registerEvents(CreationListener(), this)
         Bukkit.getPluginManager().registerEvents(DisbandListener(), this)
@@ -110,33 +116,32 @@ class IslandTop : JavaPlugin(), Component<JavaPlugin> {
         Bukkit.getPluginManager().registerEvents(MiningListener(), this)
         Bukkit.getPluginManager().registerEvents(FarmingListener(), this)
         Bukkit.getPluginManager().registerEvents(FishingListener(), this)
-        Bukkit.getPluginManager().registerEvents(LoggingListener(), this)
+        Bukkit.getPluginManager().registerEvents(MobListener(), this)
 
         LogUtil.warning("IslandTop loaded!")
 
         registerCommands()
 
-        save()
+        Bukkit.getScheduler().runTaskTimerAsynchronously(this, Runnable {
+            userStorageManager.save()
+            islandStorageManager.save()
+            LogUtil.warning("Saving all IslandTop data...")
+        }, 0, 1500L)
     }
 
     fun registerCommands() {
         CropTopCommand().bind(this)
         FishTopCommand().bind(this)
         OreTopCommand().bind(this)
-        LogTopCommand().bind(this)
+        MobTopCommand().bind(this)
 
         CropTopMenuCommand().bind(this)
         FishTopMenuCommand().bind(this)
         OreTopMenuCommand().bind(this)
-        LogTopMenuCommand().bind(this)
+        MobTopMenuCommand().bind(this)
         IslandTopMenuCommand().bind(this)
-    }
 
-    fun save() {
-        Bukkit.getScheduler().runTaskTimer(this, Runnable {
-            userStorageManager.save()
-            islandStorageManager.save()
-        }, 0, 120000L)
+        StrikeAdminCommand().bind(this)
     }
 
     override fun onDisable() {

@@ -10,10 +10,30 @@ FishTop:
   Title: "Fish Top"
   Rows: !int 3
 
-LogTop:
-  Title: "Log Top"
+MobTop:
+  Title: "Mob Top"
   Rows: !int 3
 
 IslandTop:
   Title: "Island Top"
   Rows: !int 3
+  Content:
+    Name: "&2&lIsland &a%island% &7(#%position%)"
+    Lore:
+      - "&a&lTotal Trophies&r&a: "
+      - "&f%total-value% %strikes%"
+      - " "
+      - "&a&lTrophy Breakdown&r&a: "
+      - "&8- &7Crops Trophies: &f%crops-trophies%"
+      - "&8- &7Ore Trophies: &f%ores-trophies%"
+      - "&8- &7Fish Trophies: &f%fish-trophies%"
+      - "&8- &7Mob Trophies: &f%mob-trophies%"
+      - " "
+      - "&a&lMembers&r&a: "
+      - "&f%members%"
+      - " "
+      - "&a&lStats&r&a: "
+      - "&8- &7Crops: &f%crops%"
+      - "&8- &7Ores: &f%ores%"
+      - "&8- &7Fish: &f%fish%"
+      - "&8- &7Mobs: &f%mobs%"

@@ -12,7 +12,7 @@ class JoinListener : Listener {
         val member = event.player
         val island = event.island
 
-        val islandEntity = IslandTop.islandStorageManager.read(island.uniqueId)
+        val islandEntity = IslandTop.islandStorageManager.read(island.uniqueId) ?: return
         islandEntity.addMember(member.uniqueId)
         islandEntity.isModified = true
 

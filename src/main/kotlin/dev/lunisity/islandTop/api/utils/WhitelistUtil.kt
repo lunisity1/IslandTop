@@ -42,16 +42,16 @@ class WhitelistUtil {
             return miningWorldWhitelist.contains(world)
         }
 
-        private val rawLogWhitelist = IslandTop.mainConfig.getStringList("Whitelist/Logging")
-        val logWhitelist = rawLogWhitelist.map { Material.valueOf(it) }
-        private val logsWorldWhitelist = IslandTop.mainConfig.getStringList("Allowed-Worlds/Logging")
+        private val rawMobWhitelist = IslandTop.mainConfig.getStringList("Whitelist/Mobs")
+        val mobWhitelist = rawMobWhitelist.map { EntityType.valueOf(it) }
+        private val mobWorldWhitelist = IslandTop.mainConfig.getStringList("Allowed-Worlds/Mobs")
 
-        fun isValidLog(log: Material): Boolean {
-            return logWhitelist.contains(log)
+        fun isValidMob(mob: EntityType): Boolean {
+            return mobWhitelist.contains(mob)
         }
 
-        fun isLoggingWorld(world: String): Boolean {
-            return logsWorldWhitelist.contains(world)
+        fun isMobWorld(world: String): Boolean {
+            return mobWorldWhitelist.contains(world)
         }
 
 

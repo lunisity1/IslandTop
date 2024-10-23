@@ -2,7 +2,7 @@ package dev.lunisity.islandTop.api.data
 
 enum class TrackedType {
 
-    LOG,
+    MOB,
     ORE,
     FISH,
     CROP;

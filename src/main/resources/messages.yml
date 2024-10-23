@@ -4,6 +4,11 @@ Messages:
       Enabled: true
       Value:
         - "&8(&c!&8) &7You do not have permission to do that!"
+  "INVALID-USAGE":
+    Message:
+      Enabled: true
+      Value:
+        - "&8(&c!&8) &7Invalid Usage! Use &f/strikeadmin help &7for more information."
   "TYPE-TOP":
     Message:
       Enabled: true
@@ -12,3 +17,40 @@ Messages:
         - "&8&l&m-----------------------------------------"
         - "%entries%"
         - "&8&l&m-----------------------------------------"
+  "TROPHY-SUMMARY":
+    Message:
+      Enabled: true
+      Value:
+        - "&a&l%island%'s Trophy Summary"
+        - "&8- &7Total Trophies: &f%total%"
+        - "&8- &7Trophies Pre-Strike: &f%pre-strike%"
+        - "&8- &7Crop Trophies: &f%crop-trophies%"
+        - "&8- &7Ore Trophies: &f%ore-trophies%"
+        - "&8- &7Fish Trophies: &f%fish-trophies%"
+        - "&8- &7Mob Trophies: &f%mob-trophies%"
+  "STRIKE-GIVEN":
+    Message:
+      Enabled: true
+      Value:
+        - "&8(&c!&8) &7You have given a strike to &f%target%&7 island for &f%reason%."
+  "STRIKE-TAKEN":
+    Message:
+      Enabled: true
+      Value:
+        - "&8(&c!&8) &7You have taken strike number &f%number%&7 from &f%target%&7 island."
+  "STRIKE-LOADING":
+    Message:
+      Enabled: true
+      Value:
+        - "&8(&c!&8) &7Loading strikes for &f%player%&7 island..."
+  "NO-STRIKES-FOUND":
+    Message:
+      Enabled: true
+      Value:
+        - "&8(&c!&8) &7No strikes found for &f%player%&7 island."
+  "STRIKE-VIEW":
+    Message:
+      Enabled: true
+      Value:
+        - "&8(&c!&8) &7Strikes for &f%player%&7 island:"
+        - "%strikes%"

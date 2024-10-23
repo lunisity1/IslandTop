@@ -1,6 +1,6 @@
 Settings:
   Enabled: true
-  Secret-Code: "74130093345205078424"
+  Secret-Code: "-ZWO2VPY6UTLBU9ISFRHK-"
 
 Whitelist:
   Farming: # Must be the material of the placed drop - not the crop given when harvested (e.g. CARROTS instead of CARROT)
@@ -17,43 +17,41 @@ Whitelist:
     - "IRON_ORE"
     - "GOLD_ORE"
     - "DIAMOND_ORE"
-  Logging:
-    - "OAK_LOG"
-    - "SPRUCE_LOG"
-    - "BIRCH_LOG"
-    - "JUNGLE_LOG"
+  Mobs:
+    - "ZOMBIE"
+    - "CREEPER"
+    - "WITCH"
+    - "SKELETON"
 
 Allowed-Worlds:
   Farming:
-    - "farming-world"
-    - "another-farming-world"
-    - "SuperiorWorld"
+    - "build"
   Fishing:
-    - "fishing-world"
-    - "another-fishing-world"
-    - "SuperiorWorld"
+    - "lake"
   Mining:
-    - "mining-world"
-    - "another-mining-world"
-    - "SuperiorWorld"
-  Logging:
-    - "logging-world"
-    - "another-logging-world"
-    - "SuperiorWorld"
+    - "Mine"
+  Mobs:
+    - "Mob"
 
 Trophy:
   Fish:
-    Value: 1000
-  Log:
-    Value: 750
+    Value: !long 1000
+  Mob:
+    Value: !long 750
   Ore:
-    Value: 500
+    Value: !long 500
   Crop:
-    Value: 250
+    Value: !long 250
+
+Strikes:
+  Strike-One: !long 10
+  Strike-Two: !long 35
+  Strike-Three: !long 70
+  Strike-Four: !long 100
 
 
 Formats:
   CropTop: "&2&l#%position% &a%player% &2- &a%value%"
   FishTop: "&3&l#%position% &b%player% &3- &b%value%"
-  LogTop: "&6&l#%position% &e%player% &6- &e%value%"
+  MobTop: "&4&l#%position% &c%player% &4- &c%value%"
   OreTop: "&5&l#%position% &d%player% &5- &d%value%"

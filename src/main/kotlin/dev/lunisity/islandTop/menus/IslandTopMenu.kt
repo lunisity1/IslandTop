@@ -1,11 +1,11 @@
 package dev.lunisity.islandTop.menus
 
 import com.bgsoftware.superiorskyblock.api.SuperiorSkyblockAPI
-import dev.lunisity.borealis.text.color.ColorAPI
+import dev.lunisity.borealis.text.TextReplacer
 import dev.lunisity.islandTop.IslandTop
 import dev.lunisity.islandTop.api.data.TrackedType
+import dev.lunisity.islandTop.api.data.TrophyType
 import dev.lunisity.islandTop.api.utils.MathUtil
-import dev.lunisity.islandTop.manager.island.IslandStatManager
 import dev.lunisity.novaconfig.builder.ItemBuilder
 import dev.lunisity.novamenu.abstracts.AbstractMenu
 import org.bukkit.Bukkit
@@ -27,28 +27,40 @@ class IslandTopMenu(val player: Player) : AbstractMenu(IslandTop.instance, Islan
 
         var slot = 11
         var index = 1
+
+        val textReplacer = TextReplacer()
+
         for (entry in top5) {
             val target = Bukkit.getPlayer(entry.key.owner.uniqueId) ?: Bukkit.getOfflinePlayer(entry.key.owner.uniqueId)
 
-            val lore = mutableListOf(
-                "&a&lTotal Trophies&r&a: ",
-                "&f${entry.value}",
-                " ",
-                "&a&lMembers&r&a: ",
-            )
+            if (!IslandTop.strikeManager.hasStrikes(entry.key)) {
+                textReplacer.with("%strikes%", " ")
+            } else {
+                val strikes = IslandTop.strikeManager.getCurrentPercentage(entry.key)
+                textReplacer.with("%strikes%", "&c(-$strikes%)")
+            }
+
+            textReplacer
+                .with("%total-value%", MathUtil.formatNumber(IslandTop.strikeManager.calculate(entry.key)))
+                .with("%crops-trophies%", MathUtil.formatNumber(IslandTop.trophyManager.getTrophies(entry.key, TrophyType.CROP)))
+                .with("%fish-trophies%", MathUtil.formatNumber(IslandTop.trophyManager.getTrophies(entry.key, TrophyType.FISH)))
+                .with("%mob-trophies%", MathUtil.formatNumber(IslandTop.trophyManager.getTrophies(entry.key, TrophyType.MOB)))
+                .with("%ores-trophies%", MathUtil.formatNumber(IslandTop.trophyManager.getTrophies(entry.key, TrophyType.ORE)))
+
+            val builder: StringBuilder = StringBuilder()
 
             val members = IslandTop.islandManager.getMembers(entry.key)
             if (members.isEmpty()) {
-                player.sendMessage("No members found for island ${entry.key.name}")
+                builder.append("No members found for island ${entry.key.name}")
             } else {
                 for (member in members) {
                     val memberPlayer = Bukkit.getPlayer(member) ?: Bukkit.getOfflinePlayer(member)
                     val rank = SuperiorSkyblockAPI.getPlayer(member).playerRole.name
-                    player.sendMessage(ColorAPI.apply("&7Adding member: &f${memberPlayer.name} &7with rank: &f$rank"))
-
-                    lore.add("&8- &f${memberPlayer.name} &7($rank)")
+                    builder.append("&8- &f${memberPlayer.name} &7($rank)")
                 }
             }
+
+            textReplacer.with("%members%", builder.toString())
 
             var crops = IslandTop.islandManager.getTotalStats(entry.key, TrackedType.CROP)
             if (crops == 0L) {
@@ -65,33 +77,46 @@ class IslandTopMenu(val player: Player) : AbstractMenu(IslandTop.instance, Islan
                 fish = 0
             }
 
-            var logs = IslandTop.islandManager.getTotalStats(entry.key, TrackedType.LOG)
-            if (logs == 0L) {
-                logs = 0
+            var mobs = IslandTop.islandManager.getTotalStats(entry.key, TrackedType.MOB)
+            if (mobs == 0L) {
+                mobs = 0
             }
 
-            lore.add(" ")
-            lore.add("&a&lStats&r&a: ")
-            lore.add("&8- &a&lCrops&r&a: &f${MathUtil.formatNumber(crops)}")
-            lore.add("&8- &d&lOres&r&d: &f${MathUtil.formatNumber(ores)}")
-            lore.add("&8- &b&lFish&r&b: &f${MathUtil.formatNumber(fish)}")
-            lore.add("&8- &e&lLogs&r&e: &f${MathUtil.formatNumber(logs)}")
+            textReplacer.with("%crops%", MathUtil.formatNumber(crops))
+                .with("%ores%", MathUtil.formatNumber(ores))
+                .with("%fish%", MathUtil.formatNumber(fish))
+                .with("%mobs%", MathUtil.formatNumber(mobs))
+
+            val itemLore = IslandTop.menuConfig.getStringList("IslandTop/Content/Lore")
+            val name = IslandTop.menuConfig.getString("IslandTop/Content/Name")
+            val replacer = TextReplacer().with("%island%", entry.key.name).with("%position%", index)
 
             val item = ItemBuilder.of(Material.PLAYER_HEAD).setOwner(target.name)
-                .setName("&2&lIsland &a${entry.key.name} &7(#$index)")
-                .setLore(lore)
+                .setName(replacer.apply(name))
+                .setLore(textReplacer.apply(itemLore))
                 .itemStack
 
             setItem(slot, item) { e ->
                 e.isCancelled = true
 
-                val stat = IslandTop.islandManager.getTotalStats(entry.key)
+                val value = IslandTop.strikeManager.calculate(entry.key)
+                val preStrike = IslandTop.trophyManager.getTotalTrophies(entry.key)
 
-                player.sendMessage(ColorAPI.apply("&a${entry.key.name} &7has &a${MathUtil.formatNumber(stat)} &7total value!"))
+                val summaryReplacer = TextReplacer()
+                    .with("%island%", entry.key.name)
+                    .with("%total%", MathUtil.formatNumber(value))
+                    .with("%pre-strike%", MathUtil.formatNumber(preStrike))
+                    .with("%crop-trophies%", MathUtil.formatNumber(IslandTop.trophyManager.getTrophies(entry.key, TrophyType.CROP)))
+                    .with("%ore-trophies%", MathUtil.formatNumber(IslandTop.trophyManager.getTrophies(entry.key, TrophyType.ORE)))
+                    .with("%fish-trophies%", MathUtil.formatNumber(IslandTop.trophyManager.getTrophies(entry.key, TrophyType.FISH)))
+                    .with("%mob-trophies%", MathUtil.formatNumber(IslandTop.trophyManager.getTrophies(entry.key, TrophyType.MOB)))
+
+                IslandTop.messageCache.sendMessage(player, "TROPHY-SUMMARY", summaryReplacer)
             }
             slot++
             index++
         }
+
     }
 
 }

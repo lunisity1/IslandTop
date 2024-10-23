@@ -8,7 +8,7 @@ enum class TrophyType(
 ) {
 
     FISH(TrackedType.FISH, IslandTop.mainConfig.getLong("Trophy/Fish/Value")),
-    LOG(TrackedType.LOG, IslandTop.mainConfig.getLong("Trophy/Log/Value")),
+    MOB(TrackedType.MOB, IslandTop.mainConfig.getLong("Trophy/Mob/Value")),
     ORE(TrackedType.ORE, IslandTop.mainConfig.getLong("Trophy/Ore/Value")),
     CROP(TrackedType.CROP, IslandTop.mainConfig.getLong("Trophy/Crop/Value"));
 

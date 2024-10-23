@@ -6,17 +6,17 @@ import dev.lunisity.novacommands.abstracts.AbstractCommand
 import dev.lunisity.novacommands.context.CommandContext
 import org.bukkit.entity.Player
 
-class LogTopCommand : AbstractCommand<IslandTop>("logtop-chat") {
+class MobTopCommand : AbstractCommand<IslandTop>("mobtop-chat") {
 
     override fun execute(context: CommandContext) {
         val player = context.sender as Player
 
-        val logTopMessage = IslandTop.messageManager.getLogTopMessage()
+        val mobTopMessage = IslandTop.messageManager.getLogTopMessage()
 
         val replacer = TextReplacer()
-            .with("%entries%", logTopMessage)
-            .with("%type%", "Log")
-            .with("%color%", "&6")
+            .with("%entries%", mobTopMessage)
+            .with("%type%", "Mob")
+            .with("%color%", "&4")
 
         IslandTop.messageCache.sendMessage(player, "TYPE-TOP", replacer)
     }

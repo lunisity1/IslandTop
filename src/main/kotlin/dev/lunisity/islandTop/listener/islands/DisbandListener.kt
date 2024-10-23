@@ -17,8 +17,8 @@ class DisbandListener : Listener {
         userEntity.isModified = true
         IslandTop.userStorageManager.write(userEntity)
 
-        val islandEntity = IslandTop.islandStorageManager.read(island.uniqueId)
-        islandEntity.removeAllTrackedStats(player.uniqueId)
+        val islandEntity = IslandTop.islandStorageManager.read(island.uniqueId) ?: return
+        islandEntity.resetStats()
         islandEntity.isModified = true
 
         IslandTop.islandStorageManager.write(islandEntity)
